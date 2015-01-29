@@ -7,6 +7,7 @@ import unicodedata
 import mapping
 import json
 import getpass
+import string
 
 import tools
 import messages_pb2 as proto
@@ -175,7 +176,16 @@ class TextUIMixin(object):
             desc = 'PIN'
 
         log("Please enter %s: " % desc)
+        log("Here is the PIN matrix:")
+        log(" +---+---+---+")
+        log(" | A | B | C |")
+        log(" +---+---+---+")
+        log(" | D | E | F |")
+        log(" +---+---+---+")
+        log(" | G | H | I |")
+        log(" +---+---+---+")
         pin = getpass.getpass('')
+        pin = pin.lower().translate(string.maketrans("abcdefghi","789456123"))
         return proto.PinMatrixAck(pin=pin)
 
     def callback_PassphraseRequest(self, msg):
